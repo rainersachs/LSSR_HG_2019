@@ -1,19 +1,12 @@
-# Copyright:    (C) 2017-2019 Sachs Undergraduate Research Apprentice Program
-#               This program and its accompanying materials are distributed 
-#               under the terms of the GNU General Public License v3.
+# Details:      See data_info.R for further licensing, attribution, history
+#               references, web site, and especially abbreviation information.
 # Filename:     plots.R 
 # Purpose:      Concerns radiogenic mouse Harderian gland tumorigenesis. 
-#               Contains code to generate many of the LSSR paper figures. It's
-#               part of the source code for the Chang 2019 HG project.
-# Contact:      Rainer K. Sachs 
-# Website:      https://github.com/rainersachs/mouseHG_Chang_2019plus
-# Mod history:  04 Apr 2019 # Edward: some comments in July 2019
-# Details:      See data_info.R for further licensing, attribution, 
-#               references, and abbreviation information.
+#               Contains code to generate the LSSR paper figures. It is
+#               part of the source code for 19LSSR
 
 source("monteCarlo_V1.R") # Load Monte Carlo.
 library(Hmisc) # Error bars.
-# library(dplyr)# already called in synergy
 
 #= shift needed due to the synergy-theory-oriented way DERs are calibrated =#
 dat_down = ion_data 
@@ -141,6 +134,67 @@ polygon(x = c(dd0, rev(dd0)),
         y = c(ci_data[, "corrTop"], rev(ci_data[, "corrBottom"])),
         col = "yellow", lwd = .4, border = "orange") # CI ribbon
 lines(dd0, calibrated_HZE_nte_der(dose = dd0, L = 193), col = 'red', lwd = 2)
+
+##==================================================#
+#== FigWebSup1 PanelA Si DERs. points, error bars, SHIFTED==#
+##==================================================#
+d1_Si <- c(0.001 * 0:9, 0.01 * 1:9,.1*1:9, 1:41)
+si = calibrated_HZE_te_der(dose = d1_Si, L = 70) #TE-only Si 1-ion DER
+plot(c(0, 40.1), c(0, .75), col = "white", bty = 'L', ann = FALSE) # Set plot area
+lines(d1_Si, si, col = 'black') # Si TE-only 1-ion DER, no background
+si_nte = calibrated_HZE_nte_der(dose = d1_Si, L = 70) # same for NTE-also
+lines(d1_Si, si_nte, col = 'red', lwd =2)
+
+errbar(dat_down[dat_down$LET==70,][,"dose"], dat_down[dat_down$LET==70,][,"Prev"],
+       yplus  = dat_down[dat_down$LET == 70, ][, "Prev"] + dat_down[dat_down$LET == 70, ][, "SD"], 
+       yminus = dat_down[dat_down$LET == 70, ][, "Prev"] - dat_down[dat_down$LET == 70, ][, "SD"],
+       pch = 19, cap = 0.04, add = TRUE, col = 'black', errbar.col = 'black', lwd = 1)
+legend(x = "topleft", legend = "Si, not 95%CI, SD, Y_0=", cex=0.49)
+print(Y_0)
+
+## =============================================================#
+##= FigWebSup1 Panel B: Si 1-ion NTE-also der "mixture" + both ribbons =# 
+##==============================================================#
+# Declare ratios and LET values for plot; Si with LET 70 
+dd0 <- c(0.01 * 0:9, 0.1 * 1:9, 1:41)
+
+# We use the plot that neglects adjustable parameter correlations
+uncorr_fig_0 <- simulate_monte_carlo(n = 500, dd0, 70, 1, vcov = FALSE)
+
+ci_data <- data.frame(dose = dd0,
+                      # Monte Carlo values
+                      uncorrBottom = uncorr_fig_0$monte_carlo[1, ],
+                      uncorrTop = uncorr_fig_0$monte_carlo[2, ], 
+                      
+                      # one-ion DER for comparison
+                      si = calibrated_HZE_nte_der(dose = dd0, L = 70),
+                      # IEA baseline mixture DER I(d), denoted by id below
+                      i = calculate_id(dd0, 70, 1, model = "NTE")[, 2])
+
+plot(c(0, 41), c(0, .3), col = "white", bty = 'L', ann = FALSE) # Set plot area
+
+polygon(x = c(dd0, rev(dd0)), 
+        y = c(ci_data[, "uncorrTop"], rev(ci_data[, "uncorrBottom"])), 
+        col = "aquamarine2", lwd = .4, border = "aquamarine2") # CI ribbon
+
+# We use the plot that takes adjustable parameter correlations into account
+corr_fig_0 <- simulate_monte_carlo(n = 500, dd0, 70, 1)
+ci_data <- data.frame(dose = dd0,
+                      # Monte Carlo values
+                      corrBottom = corr_fig_0$monte_carlo[1, ],
+                      corrTop = corr_fig_0$monte_carlo[2, ], #
+                      
+                      # one-ion DERs for comparison
+                      si = calibrated_HZE_nte_der(dose = dd0, L = 70),
+                      # p = calibrated_low_LET_der(dose = dd0, L = .4),
+                      
+                      # IEA baseline mixture DER I(d), denoted by id below
+                      i = calculate_id(dd0, 70, 1, model = "NTE")[, 2])
+
+polygon(x = c(dd0, rev(dd0)), 
+        y = c(ci_data[, "corrTop"], rev(ci_data[, "corrBottom"])),
+        col = "yellow", lwd = .4, border = "orange") # CI ribbon
+lines(dd0, calibrated_HZE_nte_der(dose = dd0, L = 70), col = 'red', lwd = 2)
 # ========================================================== #
 #= Fig. 5A_final p-Fe mix, NTE, points+error, narrow ribbon =# 
 # ========================================================== #
@@ -257,7 +311,8 @@ Prev=as.numeric(mix_data$Prev)-Y_0; SD=as.numeric(mix_data$SD)
 errbar(40,Prev[5], yplus  = Prev[5] +  SD[5],
        yminus = Prev[5] -SD[5],
        pch = 19, cap = 0.05, add = TRUE, col = 'black', errbar.col = 'black', lwd = 1)
-
+sea_der <- calculate_SEA(d6, c(70, 195), c(1/2, 1/2), n = 2)
+lines(d6,sea_der,lty =2)
 #=========== 6B_final. repeat Fig. 6A_final but for TE-only DERs ============#
 # We use the plot that takes adjustable parameter correlations into account
 corr_fig_6B <- simulate_monte_carlo(n = 500, d6, LET_vals, ratios, model = "TE")
@@ -525,9 +580,9 @@ errbar(100,Prev[1], yplus  = Prev[1] +  SD[1],
 # qq_sequence = qqnorm(qq_in, ann = FALSE) # ordered and compared
 # qqline(qq_in) # For Gaussian data all points would lie near this line, but
               # here: low tails are shorter, high dose tails longer
-#==================================================================#
-#== Fig9A_WebSup. 8-ion mix. Correlated ribbon; SEA ===#
-#==================================================================#
+#=================================================#
+#== Fig9A... 8-ion mix. Correlated ribbon; SEA ===#
+# === needed for part of a figure in WebSup1 =====#
 # Consists of all 8 HZE ions in our 5/20/2019 data set.
 # Declare ratios and LET values for plot
 ratios <- rep(1/8,8)
