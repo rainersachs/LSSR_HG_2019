@@ -204,6 +204,20 @@ LET_vals <- c(193, .4)
 d5_new <- c(0.01 * 0:9, 0.1 * 1:9, 1:70)
 d5_Fe = c(0.01 * 0:9, 0.1 * 1:9, 1:30)
 d5_p <- c(0.01 * 0:9, 0.1 * 1:9, 1:40)
+
+     # ================================================= #
+     # === sub chunk to illustrate vcov = FALSE tag  === #
+     # ================================================= #
+#   The LSSR paper never uses broad ribbons for mixtures #
+# They are conceptually wrong and take up too much space #
+# They are needed to study ribbon CI calculations per se #   
+# so here is the key command in case it is ever needed   #
+# We now calculate the uncorrelated Monte Carlo
+uncorr_fig_5A <- simulate_monte_carlo(n = 500, d5_new, LET_vals, ratios, model = "NTE", vcov = FALSE)
+     # ================================================= #
+     # == end subchunk to illustrate vcov = FALSE tag == #
+     # ================================================= #
+
 # We use the plot that takes adjustable parameter correlations into account
 corr_fig_5A <- simulate_monte_carlo(n = 500, d5_new, LET_vals, ratios, model = "NTE")
 # The first argument, n, is the number of Monte Carlo repeats. Increase for
