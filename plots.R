@@ -378,7 +378,7 @@ errbar(40, Prev[6], yplus = Prev[6] + SD[6], yminus = Prev[6] - SD[6],
        pch = 19, cap = 0.05, add = TRUE, col = 'black',
        errbar.col = 'black', lwd = 1)
 
-#=========================================================== =
+#============================================================#
 #= Fig. 7A_final p-Si mix, NTE, points+error, narrow ribbon =# 
 #============================================================#
 # Declare ratios and LET values for plot
@@ -418,9 +418,9 @@ errbar(100, Prev[1], yplus = Prev[1] + SD[1], yminus = Prev[1] - SD[1],
        pch = 19, cap = 0.05, add = TRUE, col = 'black', errbar.col = 'black', lwd = 1)
 legend(x = "topleft", legend = "Not 95% CI, SD", cex = 0.3)
 
-# ========================================================== #
+#============================================================#
 #= Fig. 7B_final p-Si mix, TE, point & error, narrow ribbon =# 
-# ========================================================== #
+#============================================================#
 # We use the plot that takes adjustable parameter correlations into account
 corr_fig_7B <- simulate_monte_carlo(n = 500, d7_new, LET_vals, ratios, model = "TE")
 # The first argument, n, is the number of Monte Carlo repeats. Increase for
@@ -440,17 +440,18 @@ ci_data <- data.frame(dose = d7_new,
 plot(c(0, 100), c(0,.36), col = "white", bty = 'L', ann = FALSE) # Set plot area
 polygon(x = c(d7_new, rev(d7_new)), y = c(ci_data[, "corrTop"], rev(ci_data[, "corrBottom"])),
         xpd = -1, col = "yellow", lwd = .4, border = "orange") # Narrow CI ribbon
-si_te_one = calibrated_HZE_te_der(dose = d7_Si, L = 70)
-p_one = calibrated_low_LET_der(dose = d7_p, L = .4)
+si_te_one <- calibrated_HZE_te_der(dose = d7_Si, L = 70)
+p_one <- calibrated_low_LET_der(dose = d7_p, L = .4)
 lines(d7_p, p_one, col = 'brown', lwd = 2) # p DER
 lines(d7_Si, si_te_one, col = 'blue') # Si TE-only 1-ion DER
 lines(ci_data[, "dose"], ci_data[, "i"], col = 'red', lwd = 1) # I(d)
 
 
-Prev=as.numeric(mix_data$Prev)-Y_0; SD=as.numeric(mix_data$SD)
-errbar(100,Prev[1], yplus  = Prev[1] +  SD[1],
-       yminus = Prev[1] - SD[1],
-       pch = 19, cap = 0.05, add = TRUE, col = 'black', errbar.col = 'black', lwd = 1)
+Prev <- as.numeric(mix_data$Prev) - Y_0
+SD <- as.numeric(mix_data$SD)
+errbar(100, Prev[1], yplus = Prev[1] + SD[1], yminus = Prev[1] - SD[1],
+       pch = 19, cap = 0.05, add = TRUE, col = 'black', 
+       errbar.col = 'black', lwd = 1)
 
 #==================================================================#
 #== Fig8_final. 3-ion mix. Correlated vs Uncorr CI Overlay Plot ===#
@@ -614,14 +615,14 @@ errbar(100,Prev[1], yplus  = Prev[1] +  SD[1],
 
 #=================================================#
 #== Fig9A... 8-ion mix. Correlated ribbon; SEA ===#
-# === needed for part of a figure in WebSup1 =====#
+#==== needed for part of a figure in WebSup1 =====#
 # Consists of all 8 HZE ions in our 5/20/2019 data set.
 # Declare ratios and LET values for plot
-ratios <- rep(1/8,8)
+ratios <- rep(1/8, 8)
 LET_vals <- c(20, 25, 70, 100, 193, 250, 464, 953)
-d9 <- c(.001*0:9,0.1 * 1:9, 1:50)
-d9t <- c(.001*0:9,0.1 * 1:9, 1:6,6.1,6.2,6.25)
-d9B = c(.001*0:9,0.1 * 1:9, 1:10)
+d9 <- c(.001 * 0:9, 0.1 * 1:9, 1:50)
+d9t <- c(.001 * 0:9, 0.1 * 1:9, 1:6, 6.1, 6.2, 6.25)
+d9B <- c(.001 * 0:9, 0.1 * 1:9, 1:10)
 # We use the correlated plot
 corr_fig_9 <- simulate_monte_carlo(n = 500, d9, LET_vals, ratios, model = "NTE")
 
@@ -656,8 +657,8 @@ lines(d9t, calibrated_HZE_nte_der(dose = d9t, L = 250), col = 'blue', lwd = 1)
 lines(d9t, calibrated_HZE_nte_der(dose = d9t, L = 464), col = 'blue', lwd = 1)
 lines(d9t, calibrated_HZE_nte_der(dose = d9t, L = 953), col = 'blue', lwd = 1)
 lines(ci_data[, "dose"], ci_data[, "i"], col = 'red', lwd = 2) # I(d)
-errbar(49,.35, yplus  = .35 +  .05,
-       yminus = .35 -.05,
-       pch = 19, cap = 0.05, add = TRUE, col = 'black', errbar.col = 'black', lwd = 1) #OK up to here
-sea_der = calculate_SEA(d9, LET_vals, ratios)
-lines(d9,sea_der,lty =2)
+errbar(49, .35, yplus = .35 + .05, yminus = .35 - .05,
+       pch = 19, cap = 0.05, add = TRUE, col = 'black', 
+       errbar.col = 'black', lwd = 1) #OK up to here
+sea_der <- calculate_SEA(d9, LET_vals, ratios)
+lines(d9, sea_der, lty = 2)
