@@ -412,8 +412,6 @@ lines(d7_p, p_one, col = 'brown', lwd = 2) # p DER
 lines(d7_Si, si_one, col = 'blue') # Si NTE-also 1-ion DER
 lines(ci_data[, "dose"], ci_data[, "i"], col = 'red', lwd = 1) # I(d)
 
-# The following chunk is just asking for trouble with unamed vectors
-# Edward please fix
 Prev <- as.numeric(mix_data$Prev) - Y_0 
 SD <- as.numeric(mix_data$SD)
 errbar(100, Prev[1], yplus = Prev[1] + SD[1], yminus = Prev[1] - SD[1],
