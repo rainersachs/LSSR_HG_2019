@@ -195,28 +195,6 @@ TE_cv <- weighted.mean(errors, HZE_data$NWeight)
 CV_table <- cbind(NTE_cv, TE_cv)
 CV_table
 
-# Dataframe subsetting 
-
-for (i in 1:length(HZE_data)) { # Columns by index
-  print(HZE_data[, i])
-}
-
-for (i in colnames(HZE_data)) { # Columns by names
-  print(HZE_data[, i])
-}
-
-for (i in 1:length(HZE_data[1])) { # Rows by index
-  print(HZE_data[i, ])
-}
-
-for (i in rownames(HZE_data)) { # Rows by name
-  print(HZE_data[i, ])
-}
-
-# More sophisticated methods here: 
-# https://www.r-bloggers.com/5-ways-to-subset-a-data-frame-in-r/
-
-
 # Rprojects/Auxiliary_files gives toy calculation of completion. Also see, 
 # e.g., R_projects/Old_projects/Chang_2019 But there it is inextricably tangled 
 # up with CRAN examples.
