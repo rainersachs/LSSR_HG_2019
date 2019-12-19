@@ -78,3 +78,5 @@ Y_0 <- controls_data[10, 4] # background prevalence
 
 # beta_star = Z * round(sqrt(1 / Katz), 3) 
 # i.e. beta = Z * sqrt(beta^2 / Z^2).
+
+message("dataInfo.R sourced.")

@@ -135,3 +135,5 @@ simulate_monte_carlo <- function(n = 200, dose, LET, ratios, model = "NTE",
   return(c(sample_values[ceiling((1 - interval_length) / 2 * n)], 
            sample_values[(interval_length + (1 - interval_length) / 2) * n]))
 }
+
+message("\nmonteCarlo.R sourced.")

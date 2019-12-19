@@ -34,7 +34,7 @@ phi <- 2000 # Even larger phi should give the same final results,
 Y_0 <- 0.046404
 # Y_0 <- 0.025 # values for robustness check
 # Y_0 <- 0.041
-message("Current value of Y_0: ", Y_0)
+message("\nCurrent value of Y_0: ", Y_0)
 
 
 #================================ DER MODELS ==================================#
@@ -67,10 +67,13 @@ HZE_nte_model <- nls( # Calibrating parameters in a model that modifies
                  aa2 = .001, 
                  kk1 = .06))  
 
-summary(HZE_nte_model, correlation = TRUE) # Parameter values and accuracy.
-vcov(HZE_nte_model) # Variance-covariance matrix.
-HZE_nte_model_coef <- coef(HZE_nte_model) # Calibrated central values of the 
-                                          # three parameters.
+message("\nHZE NTE model summary:")
+print(summary(HZE_nte_model, correlation = TRUE)) # Parameter values & accuracy.
+message("\nHZE NTE model variance-covariance matrix:")
+print(vcov(HZE_nte_model)) # Variance-covariance matrix.
+message("\nHZE NTE model coefficients")
+print(HZE_nte_model_coef <- coef(HZE_nte_model)) # Calibrated central values of 
+                                                 # the three parameters.
 
 # Calibrated hazard function. I.e. the DER, such that the effect is 0 at dose 0.
 calibrated_nte_hazard_func <- function(dose, LET, coef) {
@@ -92,10 +95,13 @@ HZE_te_model <- nls( # Calibrating parameters in a TE only model.
   weights = NWeight,
   start   = list(aate1 = .00009, aate2 = .01))
 
-summary(HZE_te_model, correlation = TRUE) # Parameter values & accuracy.
-vcov(HZE_te_model) # Variance-covariance matrix.
-HZE_te_model_coef <- coef(HZE_te_model) # Calibrated central values of the 
-                                        # two parameters. 
+message("\nHZE TE model details:")
+print(summary(HZE_te_model, correlation = TRUE)) # Parameter values & accuracy.
+message("\nHZE TE model variance-covariance matrix:")
+print(vcov(HZE_te_model)) # Variance-covariance matrix.
+message("\nHZE TE model coefficients:")
+print(HZE_te_model_coef <- coef(HZE_te_model)) # Calibrated central values of 
+                                               # the two parameters. 
 
 # Calibrated hazard function. I.e. the DER, such that the effect is 0 at dose 0.
 calibrated_te_hazard_func <- function(dose, LET, coef) { 
@@ -116,9 +122,11 @@ low_LET_model <- nls(
   weights = NWeight,
   start   = list(alpha_low = .005))
 
-summary(low_LET_model, correlation = TRUE)
-low_LET_model_coef <- coef(low_LET_model) # Calibrated central values of 
-                                          # the parameter.
+message("\nLow LET model summary:")
+print(summary(low_LET_model, correlation = TRUE))
+message("\nLow LET model coefficients:")
+print(low_LET_model_coef <- coef(low_LET_model)) # Calibrated central values of 
+                                                 # the parameter.
 
 # Calibrated Low LET model. Use LET = 0, but maybe later will use small LET > 0.
 calibrated_low_LET_der <- function(dose, LET, alph_low = low_LET_model_coef[1]) {  
@@ -134,6 +142,7 @@ low_LET_slope <- function(dose, LET) {
 #=========================== INFORMATION CRITERION ============================#
 info_crit_table <- cbind(AIC(HZE_te_model, HZE_nte_model), 
                          BIC(HZE_te_model, HZE_nte_model))
+message("\nInformation criterion results:")
 print(info_crit_table)
 
 ##=================== Cross validation ====================##
@@ -193,7 +202,8 @@ errors <- (theoretical - actual_prev)^2
 TE_cv <- weighted.mean(errors, HZE_data$NWeight)
 
 CV_table <- cbind(NTE_cv, TE_cv)
-CV_table
+message("\nCross validation results:")
+print(CV_table)
 
 # Rprojects/Auxiliary_files gives toy calculation of completion. Also see, 
 # e.g., R_projects/Old_projects/Chang_2019 But there it is inextricably tangled 
@@ -345,3 +355,8 @@ test_runtime <- function(f, ...) { # Naive runtime check
   f(...)
   Sys.time() - start_time
 }
+
+message("\nsynergyTheory.R sourced.")
+
+
+
