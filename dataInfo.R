@@ -1,17 +1,18 @@
 # Copyright:    (C) 2017-2019 Sachs Undergraduate Research Apprentice Program
 #               This program and its accompanying materials are distributed 
 #               under the terms of the GNU General Public License v3.
-# Filename:     data_info.R 
+# Filename:     dataInfo.R 
 # Purpose:      Concerns radiogenic mouse Harderian gland tumorigenesis. Loads 
 #               ion and tumor prevalence data from CSV files. It is part of the 
 #               source code for the Harderian Gland LSSR project.
 # Contact:      Rainer K. Sachs 
 # Website:      https://github.com/rainersachs/LSSR_HG_2019
-# Mod history:  17 Dec 2019
+# Mod history:  18 Dec 2019
 # Attribution:  This R script was developed at UC Berkeley. Written by Dae Woong 
 #               Ham Summer 2017. Additions, corrections, changes, quality 
-#               control, reorganization by Edward Huang, Yimin Lin, Mark Ebert,
-#               Yunzhi Zhang and Ray Sachs UCB 2017-2019 academic year.
+#               control, reorganization by Edward Greg Huang, Yimin Lin, 
+#               Mark Ebert, Yunzhi Zhang, and Ray Sachs at UC Berkeley during
+#               the 2017-2019 academic terms.
 
 # Relevant references and abbreviations:
 #
@@ -40,7 +41,7 @@
 #   "NTE"     = Non-targeted effects
 #   "TE"      = Targeted effects
 #   "DER"     = Dose-effect relation(ship)"
-#   Obsolescent: "IDER" = one-ion DER; "MIXDER"  = Mixture baseline DER
+#   "MIXDER"  = Mixture baseline DER
 #   "SEA"     = Simple Effect Additivity
 #   "IEA"     = Incremental Effect Additivity
 #   "cGy"     = Centigray
@@ -50,9 +51,9 @@ rm(list=ls()) # To be removed when script is finalized
 # Data used in 16Chang; includes data analyzed in .93Alp and .94Alp. Does not 
 # include gamma-ray data. Includes LET=100 keV/micron for Ti, an ad-hoc 
 # compromise between lower value at beam entry and higher value at mouse cage.
-# The next line of script plus the CSV file (which will need work as 
-# additions and perhaps corrections come up) should be all we need.
 
+# The next few lines plus the CSV file (which will need work as 
+# additions and perhaps corrections come up) should be all we need.
 ion_data <- data.frame(read.csv("oneIonData.csv")) 
 mix_data <- data.frame(read.csv("mixIon.csv"))
 controls_data <- data.frame(read.csv("controls.csv"))
@@ -75,5 +76,5 @@ Y_0 <- controls_data[10, 4] # background prevalence
 # Special relativistic calculation of Z^2 / beta^2. The numerics include 
 # conversion from GeV to joules and from u to kg.
 
-# beta_star =Z*round(sqrt(1 / Katz), 3) 
-# i.e. beta = Z*sqrt(beta^2/Z^2).
+# beta_star = Z * round(sqrt(1 / Katz), 3) 
+# i.e. beta = Z * sqrt(beta^2 / Z^2).
