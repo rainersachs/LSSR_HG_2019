@@ -5,11 +5,11 @@
 # Purpose:      Concerns radiogenic mouse Harderian gland tumorigenesis. 
 #               Contains the code to run Monte Carlo sampling and generate 
 #               confidence intervals for dose-effect relationship models. It is 
-#               part of the source code for the Harderian Glaand LSSR project.
+#               part of the source code for the Harderian Gland LSSR project.
 # Contact:      Rainer K. Sachs 
 # Website:      https://github.com/rainersachs/LSSR_HG_2019
-# Mod history:  17 Dec 2019
-# Details:      See data_Info.R for further licensing, attribution, 
+# Mod history:  18 Dec 2019
+# Details:      See dataInfo.R for further licensing, attribution, 
 #               references, and abbreviation information.
 
 source("synergyTheory.R") # Load in data and models.

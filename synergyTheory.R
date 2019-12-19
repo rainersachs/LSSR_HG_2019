@@ -8,7 +8,7 @@
 #               source code for the Harderian Gland LSSR project.
 # Contact:      Rainer K. Sachs 
 # Website:      https://github.com/rainersachs/LSSR_HG_2019
-# Mod history:  17 Dec 2019
+# Mod history:  18 Dec 2019
 # Details:      See dataInfo.R for further licensing, attribution,
 #               references, and abbreviation information.
 
