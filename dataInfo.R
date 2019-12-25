@@ -7,12 +7,14 @@
 #               source code for the Harderian Gland LSSR project.
 # Contact:      Rainer K. Sachs 
 # Website:      https://github.com/rainersachs/LSSR_HG_2019
-# Mod history:  18 Dec 2019
+# Mod history:  24 Dec 2019
 # Attribution:  This R script was developed at UC Berkeley. Written by Dae Woong 
 #               Ham Summer 2017. Additions, corrections, changes, quality 
-#               control, reorganization by Edward Greg Huang, Yimin Lin, 
-#               Mark Ebert, Yunzhi Zhang, and Ray Sachs at UC Berkeley during
-#               the 2017-2019 academic terms.
+#               control, and reorganization were made by Edward Greg Huang, 
+#               Yimin Lin, Mark Ebert, Yunzhi Zhang, and Ray Sachs from 
+#               2017 - 2018. Additional contributions to the project were made 
+#               by Ren-Yi Wang, Liyang Xie, Gracie Yao, and Borong Zhang 
+#               during 2019.
 
 # Relevant references and abbreviations:
 #
@@ -45,8 +47,6 @@
 #   "SEA"     = Simple Effect Additivity
 #   "IEA"     = Incremental Effect Additivity
 #   "cGy"     = Centigray
-
-rm(list=ls()) # To be removed when script is finalized
 
 # Data used in 16Chang; includes data analyzed in .93Alp and .94Alp. Does not 
 # include gamma-ray data. Includes LET=100 keV/micron for Ti, an ad-hoc 
