@@ -54,7 +54,7 @@
 
 # The next few lines plus the CSV file (which will need work as 
 # additions and perhaps corrections come up) should be all we need.
-ion_data <- data.frame(read.csv("oneIonData.csv")) 
+ion_data <- data.frame(read.csv("oneIon.csv")) 
 mix_data <- data.frame(read.csv("mixIon.csv"))
 controls_data <- data.frame(read.csv("controls.csv"))
 Y_0 <- controls_data[10, 4] # background prevalence
